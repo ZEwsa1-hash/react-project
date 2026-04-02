@@ -1,0 +1,40 @@
+.task-list {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.task-list__header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task-list__title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.task-list__count {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  background-color: var(--bg);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
+.task-list__ul {
+  list-style: none;
+}
+
+.task-list__empty {
+  padding: 2.5rem 1.25rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}

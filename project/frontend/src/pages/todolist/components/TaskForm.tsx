@@ -1,5 +1,13 @@
-import { memo, useRef, useEffect, useState, type FormEvent } from 'react';
-import type { TaskFormProps, Priority } from '../types/types.ts';
+import {
+  memo,
+  useState,
+  useRef,
+  useEffect,
+  type FormEvent,
+  type ChangeEvent,
+} from 'react';
+import type { Priority, TaskFormProps } from '../types/types';
+import './TaskForm.css';
 
 const TaskForm = memo(function TaskForm({ onAdd }: TaskFormProps) {
   const [text, setText] = useState('');
@@ -10,39 +18,50 @@ const TaskForm = memo(function TaskForm({ onAdd }: TaskFormProps) {
     inputRef.current?.focus();
   }, []);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const trimmed = text.trim();
-    if (!trimmed) return;
+    if (!trimmed) {
+      return;
+    }
+
     onAdd(trimmed, priority);
     setText('');
-    setPriority('medium');
-    inputRef.current?.focus();
   };
 
   return (
-    <form className="task-form" onSubmit={handleSubmit}>
-      <input
-        ref={inputRef}
-        className="task-input"
-        type="text"
-        placeholder="Новая задача..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
-      <select
-        className="priority-select"
-        value={priority}
-        onChange={(e) => setPriority(e.target.value as Priority)}
-      >
-        <option value="high">🔴 Высокий</option>
-        <option value="medium">🟡 Средний</option>
-        <option value="low">🟢 Низкий</option>
-      </select>
-      <button className="add-btn" type="submit">
-        Добавить
-      </button>
-    </form>
+    <section className="task-form">
+      <h2 className="task-form__title">Новая задача</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="task-form__row">
+          <input
+            ref={inputRef}
+            className="task-form__input"
+            type="text"
+            placeholder="Что нужно сделать?"
+            value={text}
+            onChange={(event: ChangeEvent<HTMLInputElement>) =>
+              setText(event.currentTarget.value)
+            }
+            maxLength={200}
+          />
+          <select
+            className="task-form__select"
+            value={priority}
+            onChange={(event: ChangeEvent<HTMLSelectElement>) =>
+              setPriority(event.currentTarget.value as Priority)
+            }
+          >
+            <option value="high">Высокий</option>
+            <option value="medium">Средний</option>
+            <option value="low">Низкий</option>
+          </select>
+          <button type="submit" className="task-form__btn">
+            Добавить
+          </button>
+        </div>
+      </form>
+    </section>
   );
 });
 

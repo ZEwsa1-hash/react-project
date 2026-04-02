@@ -1,0 +1,128 @@
+.analytics {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+}
+
+.analytics__title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.analytics__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.analytics__stat {
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.analytics__stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.analytics__stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+.analytics__progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  margin-bottom: 0.4rem;
+}
+
+.analytics__progress-bar {
+  height: 8px;
+  background-color: var(--progress-bg);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.analytics__progress-fill {
+  height: 100%;
+  background-color: var(--progress-fill);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.analytics__priority {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.analytics__priority-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.analytics__priority-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.analytics__priority-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.analytics__priority-dot--high {
+  background-color: var(--badge-high-text);
+}
+
+.analytics__priority-dot--medium {
+  background-color: var(--badge-medium-text);
+}
+
+.analytics__priority-dot--low {
+  background-color: var(--badge-low-text);
+}
+
+.analytics__priority-name {
+  flex: 1;
+}
+
+.analytics__priority-count {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.analytics__popular {
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.875rem;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.875rem;
+}
+
+.analytics__popular span {
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: capitalize;
+}
