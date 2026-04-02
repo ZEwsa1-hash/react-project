@@ -1,20 +1,17 @@
+const cors = require("cors");
 const express = require("express");
 const app = express();
 
 const PORT = 8082;
+const FRONTEND_ORIGIN = "http://localhost:3000";
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept",
-  );
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
-  next();
-});
+app.use(
+  cors({
+    origin: FRONTEND_ORIGIN,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
+  }),
+);
 
 app.use(express.text({ type: "*/*" }));
 
@@ -48,16 +45,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res, next) => {
-  if (req.url === "/api/login" && req.method === "POST") {
-    console.log("=== DEBUG LOGIN REQUEST ===");
-    console.log("Headers:", req.headers);
-    console.log("Raw body type:", typeof req.body);
-    console.log("Raw body:", req.body);
-  }
-  next();
-});
-
 app.post("/api/login", (req, res) => {
   setCustomTimeout(() => {
     const { login, pass } = req.body;
@@ -71,7 +58,7 @@ app.post("/api/login", (req, res) => {
         data: userWithoutPass,
       });
     } else {
-      res.status(404).send(JSON.stringify("Не зареган"));
+      res.status(404).send(JSON.stringify("User not found"));
     }
   });
 });
