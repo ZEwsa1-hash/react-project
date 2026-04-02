@@ -5,11 +5,28 @@ import { useNavigate } from 'react-router';
 
 export const Login = () => {
   const navigate = useNavigate();
-
   const { login: fetchLogin } = useAuthContext() ?? {};
 
   const [login, setLogin] = useState('');
   const [pass, setPass] = useState('');
+  const [error, setError] = useState('');
+
+  const handleLogin = async () => {
+    if (!login || !pass || !fetchLogin) {
+      setError('Enter login and password');
+      return;
+    }
+
+    try {
+      setError('');
+      await fetchLogin({ login, pass });
+      navigate(ROUTES.home);
+    } catch (input) {
+      setError(
+        input instanceof Error ? input.message : 'Login failed',
+      );
+    }
+  };
 
   return (
     <div>
@@ -28,16 +45,12 @@ export const Login = () => {
       <br />
       <button
         onClick={() => {
-          if (!login || !pass || !fetchLogin) return;
-          console.log('here');
-
-          fetchLogin({ login, pass }, () => {
-            void navigate(ROUTES.home);
-          });
+          void handleLogin();
         }}
       >
         Log in
       </button>
+      {error ? <p>{error}</p> : null}
     </div>
   );
 };
