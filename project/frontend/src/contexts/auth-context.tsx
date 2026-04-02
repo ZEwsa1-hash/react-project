@@ -11,13 +11,12 @@ import { LSService } from '@/services/ls/local-storage';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/constants/routes';
 
+const API_URL = 'http://localhost:8082/api/login';
+
 type Context = {
   user: User | null;
   isLogged: boolean;
-  login: (
-    data: { login: string; pass: string },
-    onSuccess: (user: User) => void,
-  ) => void;
+  login: (data: { login: string; pass: string }) => Promise<User>;
   logout: () => void;
 };
 
@@ -31,22 +30,24 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<User | null>(() => userStorage.get());
   const navigate = useNavigate();
 
-  const login = useCallback<Context['login']>((data, onSuccess) => {
+  const login = useCallback<Context['login']>(async (data) => {
     const { login, pass } = data;
 
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    fetch('http://localhost:8082/api/login', {
+    const response = await fetch(API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ login, pass: Number(pass) }),
-    })
-      .then((res) => res.json())
-      .then((response: APIResponse<User>) => {
-        setUser(response.data);
-        userStorage.set(response.data);
-        onSuccess(response.data);
-      })
-      .catch((err) => console.error('Login error:', err));
+    });
+
+    if (!response.ok) {
+      throw new Error('Invalid login or password');
+    }
+
+    const payload = (await response.json()) as APIResponse<User>;
+    setUser(payload.data);
+    userStorage.set(payload.data);
+
+    return payload.data;
   }, []);
 
   const logout = useCallback(() => {
