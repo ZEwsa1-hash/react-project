@@ -3,7 +3,6 @@ import { rspack, type SwcLoaderOptions } from '@rspack/core';
 import { ReactRefreshRspackPlugin } from '@rspack/plugin-react-refresh';
 import { TsCheckerRspackPlugin } from 'ts-checker-rspack-plugin';
 import path from 'path';
-import ESLintPlugin from 'eslint-rspack-plugin';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -72,10 +71,6 @@ export default defineConfig({
       typescript: {
         configFile: './tsconfig.json',
       },
-    }),
-    new ESLintPlugin({
-      configType: 'flat',
-      extensions: ['ts', 'tsx'],
     }),
     isDev ? new ReactRefreshRspackPlugin() : null,
   ],
