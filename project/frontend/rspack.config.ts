@@ -6,7 +6,6 @@ import path from 'path';
 
 const isDev = process.env.NODE_ENV === 'development';
 
-// Target browsers, see: https://github.com/browserslist/browserslist
 const targets = ['last 2 versions', '> 0.2%', 'not dead', 'Firefox ESR'];
 
 export default defineConfig({
@@ -21,18 +20,15 @@ export default defineConfig({
   },
   module: {
     rules: [
-      // 👇 ПРАВИЛА ДЛЯ CSS (ДОБАВЛЕНО)
       {
         test: /\.module\.css$/,
-        type: 'css/module', // CSS Modules
+        type: 'css/module',
       },
       {
         test: /\.css$/,
         exclude: /\.module\.css$/,
-        type: 'css', // Обычные CSS
+        type: 'css',
       },
-
-      // 👇 ОСТАЛЬНЫЕ ПРАВИЛА
       {
         test: /\.svg$/,
         type: 'asset',
@@ -83,7 +79,7 @@ export default defineConfig({
     ],
   },
   experiments: {
-    css: true, // 👈 Оставляем включённым
+    css: true,
   },
   devServer: {
     port: 3000,

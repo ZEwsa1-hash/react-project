@@ -1,5 +1,5 @@
 import { useAuthContext } from '@/contexts/auth-context';
-import { Link } from 'react-router-dom'; // 👈 Импортируем Link
+import { Link } from 'react-router-dom';
 import { ROUTES } from '@/constants/routes';
 
 export const Home = () => {

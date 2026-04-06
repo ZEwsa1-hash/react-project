@@ -1,9 +1,9 @@
-import { createContext, useContext, useState, useEffect } from 'react'; // 👈 Добавили useEffect
+import { createContext, useContext, useState, useEffect } from 'react';
 import type {
   Theme,
   ThemeContextType,
   ThemeProviderProps,
-} from '../types/types'; // 👈 Убрали .ts
+} from '../types/types';
 
 export const ThemeContext = createContext<ThemeContextType | null>(null);
 
@@ -29,6 +29,6 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 
 export function useTheme(): ThemeContextType {
   const context = useContext(ThemeContext);
-  if (!context) throw new Error('useTheme must be used within ThemeProvider'); // 👈 Понятная ошибка
+  if (!context) throw new Error('useTheme must be used within ThemeProvider');
   return context;
 }
