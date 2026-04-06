@@ -23,7 +23,7 @@ const DATA = {
       email: "some@gmail.com",
       isAdmin: true,
       login: "Gary",
-      pass: 123,
+      pass: "123",
     },
   ],
 };
@@ -50,7 +50,7 @@ app.post("/api/login", (req, res) => {
     const { login, pass } = req.body;
 
     const findetUser = DATA.users.find(
-      (user) => user.login === login && user.pass === pass,
+      (user) => user.login === login && String(user.pass) === String(pass),
     );
     if (findetUser) {
       const { pass, ...userWithoutPass } = findetUser;
