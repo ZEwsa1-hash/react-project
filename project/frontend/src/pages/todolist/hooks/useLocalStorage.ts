@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
 function useLocalStorage<T>(
   key: string,
@@ -15,25 +15,19 @@ function useLocalStorage<T>(
 
   const setValue = useCallback(
     (value: T | ((prev: T) => T)) => {
-      try {
-        const valueToStore =
-          value instanceof Function ? value(storedValue) : value;
-        setStoredValue(valueToStore);
-        window.localStorage.setItem(key, JSON.stringify(valueToStore));
-      } catch (error) {
-        console.error('Failed to save to localStorage:', error);
-      }
+      setStoredValue((prev) => {
+        try {
+          const next = value instanceof Function ? value(prev) : value;
+          window.localStorage.setItem(key, JSON.stringify(next));
+          return next;
+        } catch (error) {
+          console.error('Failed to save to localStorage:', error);
+          return prev;
+        }
+      });
     },
-    [key, storedValue],
+    [key],
   );
-
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(key, JSON.stringify(storedValue));
-    } catch {
-      console.error('Failed to save to localStorage');
-    }
-  }, [key, storedValue]);
 
   return [storedValue, setValue];
 }
