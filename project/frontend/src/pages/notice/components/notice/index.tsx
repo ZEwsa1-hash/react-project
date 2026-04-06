@@ -2,7 +2,6 @@ import {
   useEffect,
   useState,
   type ChangeEvent,
-  type FocusEvent,
   type MouseEvent,
 } from 'react';
 import type { BaseNotice, NoteColor } from '@/pages/notice/types';
@@ -47,10 +46,15 @@ export const Notice = ({
   isRemoving,
 }: Props) => {
   const [draftTitle, setDraftTitle] = useState(title);
+  const [draftContent, setDraftContent] = useState(content);
 
   useEffect(() => {
     setDraftTitle(title);
   }, [title]);
+
+  useEffect(() => {
+    setDraftContent(content);
+  }, [content]);
 
   const { setElement } = useDragndrop((coords) => onDragEnd(id, coords));
 
@@ -106,13 +110,14 @@ export const Notice = ({
       </div>
 
       <textarea
-        defaultValue={content}
+        value={draftContent}
         onMouseDown={(event: MouseEvent<HTMLTextAreaElement>) =>
           event.stopPropagation()
         }
-        onBlur={(event: FocusEvent<HTMLTextAreaElement>) => {
-          onTextBlur(id, event.currentTarget.value);
-        }}
+        onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
+          setDraftContent(event.currentTarget.value)
+        }
+        onBlur={() => onTextBlur(id, draftContent)}
         style={style.textarea}
       />
     </div>
