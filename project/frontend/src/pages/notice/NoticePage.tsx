@@ -239,6 +239,7 @@ export function NoticePage() {
         type="search"
         value={search}
         placeholder="Поиск по заметкам..."
+        aria-label="Поиск по заметкам"
         onChange={(event) => setSearch(event.currentTarget.value)}
         style={{
           position: 'fixed',

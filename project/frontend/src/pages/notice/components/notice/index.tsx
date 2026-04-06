@@ -84,6 +84,7 @@ export const Notice = ({
         />
         <button
           type="button"
+          aria-label="Remove note"
           style={style.removeButton}
           onMouseDown={(event: MouseEvent<HTMLButtonElement>) =>
             event.stopPropagation()
