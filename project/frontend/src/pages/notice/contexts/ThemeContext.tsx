@@ -14,9 +14,10 @@ export const ThemeContextComponent = ({ children }: PropsWithChildren) => {
   const [theme, setTheme] = useState<Theme>('light');
 
   useEffect(() => {
-    setInterval(() => {
+    const id = setInterval(() => {
       setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
     }, 4000);
+    return () => clearInterval(id);
   }, []);
 
   return <ThemeContext value={theme}>{children}</ThemeContext>;
