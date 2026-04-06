@@ -47,20 +47,28 @@ app.use((req, res, next) => {
 
 app.post("/api/login", (req, res) => {
   setCustomTimeout(() => {
-    const { login, pass } = req.body;
+    try {
+      const { login, pass } = req.body;
 
-    const findetUser = DATA.users.find(
-      (user) => user.login === login && String(user.pass) === String(pass),
-    );
-    if (findetUser) {
-      const { pass, ...userWithoutPass } = findetUser;
-      res.json({
-        data: userWithoutPass,
-      });
-    } else {
-      res.status(404).send(JSON.stringify("User not found"));
+      const foundUser = DATA.users.find(
+        (user) => user.login === login && String(user.pass) === String(pass),
+      );
+      if (foundUser) {
+        const { pass: _pass, ...userWithoutPass } = foundUser;
+        res.json({ data: userWithoutPass });
+      } else {
+        res.status(404).json({ error: "User not found" });
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal server error" });
     }
   });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: "Internal server error" });
 });
 
 app.listen(PORT, () => {
